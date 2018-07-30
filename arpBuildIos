@@ -1,0 +1,25 @@
+#!/bin/bash
+# build ios
+# pull last changes; get html, css and js updated from gulp; build ios
+
+PATH_TO_COMPILE_WWW="/Users/ken/Projects/tektonProjects/ARP-iOS/client/."
+PATH_TO_COMPILE_IOS="/Users/ken/Projects/tektonProjects/ARP-iOS/client/cordova_build/."
+
+INITIAL_PATH=$(pwd);
+cd $PATH_TO_COMPILE_WWW;
+
+echo "Ios project is on branch $(git rev-parse --abbrev-ref HEAD)."; 
+echo "This script will pull last changes of that branch and build Ios, SURE?(y/n)"
+read REPLY_COMPILE
+
+if [[ $REPLY_COMPILE = 'y' ]]; then
+  echo "Pulling last changes";
+  git pull origin $(git rev-parse --abbrev-ref HEAD)
+  echo "Will compile ios app now";
+  cd $PATH_TO_COMPILE_WWW;
+  gulp default && cd $PATH_TO_COMPILE_IOS && cordova build ios;
+else
+  echo "Build for Ios cancelled.";
+  cd $INITIAL_PATH;
+  exit 1
+fi

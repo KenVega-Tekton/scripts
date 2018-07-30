@@ -1,0 +1,7 @@
+#!/bin/bash
+
+git config --global user.name 'Ken Vega'
+git config --global user.email 'ken.vega@tektonlabs.com'
+
+echo 'changed git name to'
+git config --global user.email

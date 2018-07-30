@@ -1,0 +1,2 @@
+echo 'actual git user'
+git config --global user.email

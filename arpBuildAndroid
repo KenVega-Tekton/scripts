@@ -1,0 +1,24 @@
+#!/bin/bash
+# build android apk
+# pull last changes; get html, css and js updated from gulp; build apk
+
+PATH_TO_COMPILE_WWW="/Users/ken/Projects/tektonProjects/ARP-Android/client/."
+PATH_TO_COMPILE_ANDROID="/Users/ken/Projects/tektonProjects/ARP-Android/client/cordova_build/."
+
+INITIAL_PATH=$(pwd);
+cd $PATH_TO_COMPILE_WWW;
+
+echo "Android project is on branch $(git rev-parse --abbrev-ref HEAD)."; 
+echo "This script will pull last changes of that branch and build Android-Debug, SURE?(y/n)"
+read REPLY_COMPILE
+
+if [[ $REPLY_COMPILE = 'y' ]]; then
+  echo "Pulling last changes";
+  git pull origin $(git rev-parse --abbrev-ref HEAD)
+  echo "Building Android app now";
+  gulp default && cd $PATH_TO_COMPILE_ANDROID && cordova build android && open /Users/ken/Projects/tektonProjects/ARP-Android/client/cordova_build/platforms/android/build/outputs/apk/
+else
+  echo "Build for Android cancelled.";
+  cd $INITIAL_PATH;
+  exit 1
+fi
